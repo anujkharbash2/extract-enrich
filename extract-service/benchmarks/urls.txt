@@ -1,0 +1,3 @@
+https://www.flipkart.com/some-product-page
+https://www.amazon.in/some-product-page
+https://www.thehindu.com/some-article
