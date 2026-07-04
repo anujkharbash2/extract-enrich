@@ -1,0 +1,32 @@
+[
+  {
+    "id": "hindu_khamenei_article",
+    "fixture_file": "sample_article.html",
+    "final_url": "https://www.thehindu.com/news/international/west-asia-war-live-updates-july-3-2026-iran-israel-usa-strait-of-hormuz/article71177098.ece",
+    "expected_page_type": "article",
+    "expected_fields": {
+      "title": "West Asia war LIVE: Ayatollah Khamenei laid in state in Tehran ahead of weeklong mass funeral",
+      "author": "The Hindu Bureau"
+    }
+  },
+  {
+    "id": "no_structured_article_farmers",
+    "fixture_file": "no_structured_article.html",
+    "final_url": "https://example.com/farmers-article",
+    "expected_page_type": "article",
+    "expected_fields": {
+      "title": "Local Farmers Report Record Harvest This Season"
+    }
+  },
+  {
+    "id": "no_structured_product_headphones",
+    "fixture_file": "no_structured_product.html",
+    "final_url": "https://example.com/headphones",
+    "expected_page_type": "product",
+    "expected_fields": {
+      "title": "Premium Wireless Headphones - Noise Cancelling",
+      "price": "2499.00",
+      "currency": "INR"
+    }
+  }
+]
