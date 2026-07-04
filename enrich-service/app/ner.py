@@ -2,7 +2,7 @@ import spacy
 from pydantic import BaseModel
 
 # Load once at module import time - loading per-request would be far too slow
-_nlp = spacy.load("en_core_web_sm")
+_nlp = spacy.load("en_core_web_sm", disable=["tagger", "parser", "lemmatizer", "attribute_ruler"])
 
 # Map spaCy's internal entity labels to our simpler public categories.
 # spaCy's en_core_web_sm produces ~18 label types; we only care about
