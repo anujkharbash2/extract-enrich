@@ -97,3 +97,15 @@ def test_fallback_extraction_no_structured_data():
     assert data["extraction_method"] == "fallback"
     assert "Local Farmers" in data["fields"]["title"]
     assert "harvest" in data["fields"]["body_text"].lower()
+
+def test_fallback_extraction_no_structured_product():
+    html = load_fixture("no_structured_product.html")
+    response = client.post("/v1/extract", json=make_payload(html))
+    assert response.status_code == 200
+    data = response.json()
+    assert data["page_type"] == "product"
+    assert data["extraction_method"] == "fallback"
+    assert "Wireless Headphones" in data["fields"]["title"]
+    assert data["fields"]["price"] == "2499.00"
+    assert data["fields"]["currency"] == "INR"
+    assert len(data["fields"]["images"]) == 2  # star.png icon should be filtered out
