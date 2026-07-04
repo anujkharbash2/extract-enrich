@@ -42,8 +42,7 @@ def test_enrich_handles_empty_text():
 def test_enrich_response_has_placeholder_fields():
     response = client.post("/v1/enrich", json={"text": "Hello world."})
     data = response.json()
-    assert data["sentiment"] is None
-    assert data["cleaned_text"] is None
+    assert data["cleaned_text"] is not None  # cleanup now runs on all input
 
 
 def test_enrich_extracts_entities_for_english():
@@ -65,3 +64,27 @@ def test_enrich_skips_ner_for_non_english():
     assert response.status_code == 200
     data = response.json()
     assert data["entities"] == []
+
+def test_enrich_positive_sentiment():
+    response = client.post("/v1/enrich", json={
+        "text": "This is a wonderful, fantastic product. I absolutely love it!"
+    })
+    data = response.json()
+    assert data["sentiment"] > 0.5
+
+
+def test_enrich_negative_sentiment():
+    response = client.post("/v1/enrich", json={
+        "text": "This is terrible and awful. I hate it completely."
+    })
+    data = response.json()
+    assert data["sentiment"] < -0.5
+
+
+def test_enrich_strips_boilerplate_in_cleaned_text():
+    response = client.post("/v1/enrich", json={
+        "text": "Real article content here.   Subscribe to our newsletter   for updates."
+    })
+    data = response.json()
+    assert "newsletter" not in data["cleaned_text"].lower()
+    assert "Real article content here." in data["cleaned_text"]
