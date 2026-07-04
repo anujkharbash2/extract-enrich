@@ -87,3 +87,13 @@ def test_captcha_marker_flagged_as_suspect():
     assert response.status_code == 200
     data = response.json()
     assert data["fields"]["skipped_reason"] == "SUSPECT_CONTENT_POSSIBLE_BLOCK_FALSE_NEGATIVE"
+
+def test_fallback_extraction_no_structured_data():
+    html = load_fixture("no_structured_article.html")
+    response = client.post("/v1/extract", json=make_payload(html))
+    assert response.status_code == 200
+    data = response.json()
+    assert data["page_type"] == "article"
+    assert data["extraction_method"] == "fallback"
+    assert "Local Farmers" in data["fields"]["title"]
+    assert "harvest" in data["fields"]["body_text"].lower()

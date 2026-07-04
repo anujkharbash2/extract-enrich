@@ -3,8 +3,10 @@ annotated-types==0.7.0
 anyio==4.14.1
 beautifulsoup4==4.15.0
 certifi==2026.6.17
+chardet==7.4.3
 charset-normalizer==3.4.7
 click==8.4.2
+cssselect==1.4.0
 extruct==0.18.0
 fastapi==0.139.0
 h11==0.16.0
@@ -27,6 +29,7 @@ pyparsing==3.3.2
 pyrdfa3==3.6.5
 pytest==9.1.1
 rdflib==7.6.0
+readability-lxml==0.8.4.1
 requests==2.34.2
 six==1.17.0
 soupsieve==2.8.4

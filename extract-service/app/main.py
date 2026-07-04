@@ -1,7 +1,8 @@
 from typing import Optional
 from fastapi import FastAPI
 from pydantic import BaseModel
-
+from app.fallback_article import extract_article_fallback
+from app.fallback_product import extract_product_fallback
 from app.structured_parser import parse_structured_data, find_schema_type
 from app.normalizer import (
     normalize_product_from_jsonld,
@@ -89,6 +90,17 @@ def extract(payload: FetchResult):
             fields = normalize_article_from_og(og_dict)
             return ExtractResponse(page_type=page_type, confidence=min(confidence, 0.7),
                                     extraction_method=ExtractionMethod.OPEN_GRAPH, fields=fields.model_dump())
+        
+        # Last resort: DOM-heuristic fallback extraction
+    if page_type == PageType.PRODUCT:
+        fields = extract_product_fallback(payload.html)
+        return ExtractResponse(page_type=page_type, confidence=min(confidence, 0.4),
+                                extraction_method=ExtractionMethod.FALLBACK, fields=fields.model_dump())
+
+    if page_type == PageType.ARTICLE:
+        fields = extract_article_fallback(payload.html)
+        return ExtractResponse(page_type=page_type, confidence=min(confidence, 0.4),
+                                extraction_method=ExtractionMethod.FALLBACK, fields=fields.model_dump())
 
     return ExtractResponse(page_type=PageType.OTHER, confidence=0.0,
                             extraction_method=ExtractionMethod.NONE, fields={})
