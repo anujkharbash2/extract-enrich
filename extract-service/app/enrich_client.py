@@ -4,7 +4,7 @@ import httpx
 logger = logging.getLogger(__name__)
 
 ENRICH_SERVICE_URL = "http://localhost:8002/v1/enrich"
-ENRICH_TIMEOUT_SECONDS = 2.0  # per doc: enrichment shouldn't add much latency; fail fast
+ENRICH_TIMEOUT_SECONDS = 0.3  # per doc: enrichment shouldn't add much latency; fail fast
 
 
 def call_enrich_service(text: str) -> dict | None:
