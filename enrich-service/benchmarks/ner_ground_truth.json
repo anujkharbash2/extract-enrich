@@ -1,0 +1,30 @@
+[
+  {
+    "id": "modi_tata_delhi",
+    "text": "Prime Minister Narendra Modi met with representatives from Tata Group and Infosys in New Delhi on Friday to discuss investment opportunities in Maharashtra and Karnataka.",
+    "expected_entities": [
+      {"text": "Narendra Modi", "type": "person"},
+      {"text": "Tata Group", "type": "organization"},
+      {"text": "Infosys", "type": "organization"},
+      {"text": "New Delhi", "type": "location"},
+      {"text": "Maharashtra", "type": "location"},
+      {"text": "Karnataka", "type": "location"}
+    ]
+  },
+  {
+    "id": "farmers_article",
+    "text": "Farmers across the region are reporting one of the best harvests in a decade, thanks to favorable monsoon patterns and improved irrigation techniques introduced last year.",
+    "expected_entities": []
+  },
+  {
+    "id": "corporate_announcement",
+    "text": "Reliance Industries announced a partnership with Google and Facebook to expand digital services across India, with CEO Mukesh Ambani calling it a landmark deal.",
+    "expected_entities": [
+      {"text": "Reliance Industries", "type": "organization"},
+      {"text": "Google", "type": "organization"},
+      {"text": "Facebook", "type": "organization"},
+      {"text": "India", "type": "location"},
+      {"text": "Mukesh Ambani", "type": "person"}
+    ]
+  }
+]
