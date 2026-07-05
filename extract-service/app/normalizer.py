@@ -14,7 +14,44 @@ def clean_text(text: Optional[str]) -> Optional[str]:
         return None
     text = html_lib.unescape(text)
     return re.sub(r"\s+", " ", text).strip() or None
+from dateutil import parser as date_parser
+from datetime import datetime, timezone
+import logging
 
+logger = logging.getLogger(__name__)
+
+
+def normalize_date(raw_date) -> str | None:
+    """
+    Normalizes any recognizable date/datetime string into ISO 8601 UTC format.
+    ISO 8601 input is parsed strictly first (unambiguous by definition - never
+    needs dayfirst guessing). Only non-ISO, ambiguous formats (e.g. '03/07/2026')
+    fall back to a dayfirst=True heuristic, since our primary market context is
+    India, where DD/MM/YYYY is the common convention.
+    """
+    if not raw_date or not isinstance(raw_date, str) or not raw_date.strip():
+        return None
+
+    raw_date = raw_date.strip()
+
+    # Try strict ISO 8601 parsing first - never ambiguous, never needs dayfirst.
+    try:
+        parsed = date_parser.isoparse(raw_date)
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed.isoformat()
+    except (ValueError, TypeError):
+        pass
+
+    # Fall back to flexible parsing with dayfirst heuristic for non-ISO formats.
+    try:
+        parsed = date_parser.parse(raw_date, dayfirst=True)
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed.isoformat()
+    except (ValueError, OverflowError, TypeError) as e:
+        logger.warning(f"Could not parse date '{raw_date}': {e}")
+        return None
 
 
 def _parse_number_format(raw_number: str) -> str | None:
@@ -128,7 +165,7 @@ def normalize_article_from_jsonld(item: dict) -> ArticleFields:
     return ArticleFields(
         title=clean_text(item.get("headline") or item.get("name")),
         author=clean_text(author) if isinstance(author, str) else None,
-        published_time=item.get("datePublished"),
+        published_time=normalize_date(item.get("datePublished")),
         body_text=clean_text(item.get("articleBody")),
         images=[img for img in images if img],
         description=clean_text(item.get("description")),
@@ -160,7 +197,7 @@ def normalize_article_from_og(og: dict) -> ArticleFields:
     return ArticleFields(
         title=clean_text(og.get("og:title")),
         author=clean_text(og.get("article:author")),
-        published_time=og.get("article:published_time"),
+        published_time=normalize_date(og.get("article:published_time")),
         body_text=None,
         images=[og["og:image"]] if og.get("og:image") else [],
         description=clean_text(og.get("og:description")),

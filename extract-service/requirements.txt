@@ -30,6 +30,7 @@ Pygments==2.20.0
 pyparsing==3.3.2
 pyrdfa3==3.6.5
 pytest==9.1.1
+python-dateutil==2.9.0.post0
 rdflib==7.6.0
 readability-lxml==0.8.4.1
 requests==2.34.2
