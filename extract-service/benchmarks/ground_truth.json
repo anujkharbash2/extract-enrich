@@ -28,5 +28,70 @@
       "price": "2499.00",
       "currency": "INR"
     }
+  },
+  {
+    "id": "amazon_ml_book_001",
+    "fixture_file": "ml_essential.html",
+    "final_url": "https://www.amazon.in/Machine-Learning-Essentials-Always-Wanted/dp/1636513778/",
+    "expected_page_type": "product",
+    "expected_fields": {
+      "title": "Machine Learning Essentials You Always Wanted to Know: A Hands-On Beginner's Guide to Mastering AI, Supervised, Unsupervised, and Deep Learning Algorithms",
+      "price": "469",
+      "currency": "INR"
+    }
+  },
+  {
+    "id": "meesho_001",
+    "fixture_file": "meesho_anarkalikurti.html",
+    "final_url": "https://www.meesho.com/sky-blue-colour-printed-georgette-dress/p/21ryil",
+    "expected_page_type": "product",
+    "expected_fields": {
+      "title": "sky blue colour printed georgette dress",
+      "price": "355",
+      "currency": "INR",
+      "stock_status": "in_stock",
+      "brand": "DHANERI"
+    }
+  },
+  {
+    "id": "meesho_002",
+    "fixture_file": "meesho_002.html",
+    "final_url": "https://www.meesho.com/mens-cotton-short-kurta-mens-long-sleeves-regular-fit-kurta-ethnic-wear-straight-indian-short-kurta-mandarinchinese-collar-casual-short-kurta-party-shirt/p/6ssbs0",
+    "expected_page_type": "product",
+    "expected_fields": {
+      "title": "Men's Cotton Short Kurta Men's Long Sleeves Regular Fit Kurta Ethnic Wear Straight Indian Short Kurta Mandarin/Chinese Collar Casual Short Kurta Party Shirt",
+      "price": "330",
+      "currency": "INR",
+      "stock_status": "in_stock",
+      "brand": "H.S TEXTILES"
+    }
+  },
+  {
+    "id": "myntra_001",
+    "fixture_file": "myntra_001.html",
+    "final_url": "https://www.myntra.com/face-towels/personal+touch+skincare/personal-touch-skincare-pink-microfiber-face-towel/32649536",
+    "expected_page_type": "product",
+    "expected_fields": {
+      "title": "Personal Touch Skincare Pink Microfiber Face Towel",
+      "price": "499",
+      "currency": "INR",
+      "stock_status": "in_stock",
+      "brand": "Personal Touch Skincare",
+      "description": "Personal Touch Skincare Pink Microfiber Face Towel"
+    }
+  },
+  {
+    "id": "myntra_002",
+    "fixture_file": "myntra_002.html",
+    "final_url": "https://www.myntra.com/boxers/damensch/damensch--men-striped-white-ultra-light-cotton-regular-fit-inner-boxer/14905412/buy",
+    "expected_page_type": "product",
+    "expected_fields": {
+      "title": "DAMENSCH Men Striped White Ultra-Light Cotton Regular Fit Inner Boxer",
+      "price": "499",
+      "currency": "INR",
+      "stock_status": "in_stock",
+      "brand": "DAMENSCH",
+      "description": "DAMENSCH Men Striped White Ultra-Light Cotton Regular Fit Inner Boxer"
+    }
   }
 ]
