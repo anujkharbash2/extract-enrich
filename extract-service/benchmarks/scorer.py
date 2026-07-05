@@ -24,6 +24,32 @@ def text_similarity(a: str, b: str) -> float:
         return 0.0
     return SequenceMatcher(None, a.strip().lower(), b.strip().lower()).ratio()
 
+def calibration_report(report: dict) -> dict:
+    """
+    Groups benchmark results by extraction_method and checks whether
+    field-level accuracy for that tier roughly matches the confidence
+    we claim for it. This is what 'calibrated' actually means -
+    not just a plausible-sounding number.
+    """
+    by_method = {}
+    for case in report["results"]:
+        method = case["extraction_method"]
+        by_method.setdefault(method, {"claimed_confidence": case["confidence"], "field_results": []})
+        by_method[method]["field_results"].extend(case["fields"].values())
+
+    calibration = {}
+    for method, data in by_method.items():
+        fields = data["field_results"]
+        if not fields:
+            continue
+        actual_accuracy = sum(1 for f in fields if f["match"]) / len(fields)
+        calibration[method] = {
+            "claimed_confidence": data["claimed_confidence"],
+            "actual_field_accuracy": round(actual_accuracy, 4),
+            "gap": round(data["claimed_confidence"] - actual_accuracy, 4),
+            "sample_size": len(fields),
+        }
+    return calibration
 
 def run_benchmark() -> dict:
     with open(BENCHMARK_DIR / "ground_truth.json") as f:
@@ -103,3 +129,10 @@ if __name__ == "__main__":
     print(f"Field-level accuracy: {report['summary']['field_level_accuracy'] * 100:.1f}% "
           f"({report['summary']['field_matches']}/{report['summary']['field_total']} fields)")
     print(f"Doc's Phase 1 target: >=85% field-level accuracy")
+
+    print("\n=== CALIBRATION (confidence claimed vs. actual accuracy) ===")
+    calibration = calibration_report(report)
+    for method, stats in calibration.items():
+        print(f"{method:15} claimed={stats['claimed_confidence']:.2f}  "
+              f"actual={stats['actual_field_accuracy']:.2f}  "
+              f"gap={stats['gap']:+.2f}  (n={stats['sample_size']})")

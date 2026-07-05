@@ -57,3 +57,4 @@ def test_extraction_still_works_when_enrich_service_unavailable():
         assert data["fields"]["title"] == "Local Farmers Report Record Harvest This Season"
     finally:
         enrich_client.ENRICH_SERVICE_URL = original_url
+        

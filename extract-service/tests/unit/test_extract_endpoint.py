@@ -82,7 +82,7 @@ def test_malformed_jsonld_does_not_crash():
 
 
 def test_captcha_marker_flagged_as_suspect():
-    html = "<html><body>" + ("Please complete the CAPTCHA to continue. " * 30) + "</body></html>"
+    html = "<html><head><title>Please complete the CAPTCHA to continue</title></head><body>Some content</body></html>"
     response = client.post("/v1/extract", json=make_payload(html))
     assert response.status_code == 200
     data = response.json()

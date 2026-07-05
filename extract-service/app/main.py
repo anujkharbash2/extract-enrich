@@ -129,14 +129,27 @@ def extract(payload: FetchResult):
     if page_type == PageType.PRODUCT:
         fields = extract_product_fallback(payload.html)
         fields_dict = maybe_enrich(page_type, fields.model_dump())
-        return ExtractResponse(page_type=page_type, confidence=min(confidence, 0.4),
+        return ExtractResponse(page_type=page_type, confidence=min(confidence, 0.6),
                                 extraction_method=ExtractionMethod.FALLBACK, fields=fields_dict)
 
     if page_type == PageType.ARTICLE:
         fields = extract_article_fallback(payload.html)
         fields_dict = maybe_enrich(page_type, fields.model_dump())
-        return ExtractResponse(page_type=page_type, confidence=min(confidence, 0.4),
+        return ExtractResponse(page_type=page_type, confidence=min(confidence, 0.6),
                                 extraction_method=ExtractionMethod.FALLBACK, fields=fields_dict)
 
     return ExtractResponse(page_type=PageType.OTHER, confidence=0.0,
                             extraction_method=ExtractionMethod.NONE, fields={})
+
+
+
+
+
+
+
+# Was: min(confidence, 0.6)
+# Calibration check (Step 16) showed fallback actual accuracy (100%, n=4) far
+# exceeds claimed confidence (40%) on our current benchmark set - but that set
+# is small and synthetic, so we're moving cautiously toward 0.6 rather than
+# fully trusting the observed 1.0. Revisit once benchmark set grows past ~50
+# real-world cases (see benchmarks/ground_truth.json).

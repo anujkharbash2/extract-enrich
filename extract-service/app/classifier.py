@@ -37,8 +37,8 @@ def classify_page(html: str, structured_data: dict) -> tuple[PageType, float]:
     article_signals = html_lower.count("<article") + html_lower.count('itemprop="articlebody"')
 
     if price_signals > 0 and price_signals >= article_signals:
-        return PageType.PRODUCT, 0.4
+        return PageType.PRODUCT, 0.6
     if article_signals > 0:
-        return PageType.ARTICLE, 0.4
+        return PageType.ARTICLE, 0.6
 
     return PageType.OTHER, 0.0
